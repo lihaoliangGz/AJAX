@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XMLHttpRequest 对象用于和服务器交换数据</title>
+    <script type="text/javascript">
+
+        function loadXMLDoc() {
+            var xmlhttp;
+            var yy=window.XMLHttpRequest;
+            //判断浏览器是否支持XMLHttpRequest 对象
+            if (window.XMLHttpRequest) {
+                //创建对象
+                xmlhttp = new XMLHttpRequest();
+            }else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            //onreadystatechange 事件,存储函数（或函数名），每当 readyState 属性改变时，就会调用该函数。
+            //当使用 async=true 时，请规定在响应处于 onreadystatechange 事件中的就绪状态时执行的函数:
+            xmlhttp.onreadystatechange=function () {
+
+                /**
+                 *
+                 * readyState  存有 XMLHttpRequest 的状态。从 0 到 4 发生变化。
+                 * 0: 请求未初始化
+                 * 1: 服务器连接已建立
+                 * 2: 请求已接收
+                 * 3: 请求处理中
+                 * 4: 请求已完成，且响应已就绪
+                 *
+                 */
+                console.log(xmlhttp.readyState);
+
+                /**
+                 *  status 200:"OK"
+                 *         404: 未找到页面
+                 */
+                console.log(xmlhttp.status);
+
+                if (xmlhttp.readyState==4&&xmlhttp.status==200) {
+                    document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+                }
+            }
+
+            //xmlhttp.open("GET", "AJAX_server_2.txt", true);
+            //xmlhttp.open("GET", "AJAX_server_4.jsp", true);
+            //xmlhttp.open("GET", "404.html", true);
+            //xmlhttp.open("GET", "http://www.w3school.com.cn/php/php_ajax_xml.asp", true);
+            xmlhttp.open("POST", "AJAX_server_2.txt", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");//post请求时,添加http头,在send()方法中可传参数。
+            xmlhttp.send();
+
+            //如果async=false 时，请不要编写 onreadystatechange 函数 - 把代码放到 send() 语句后面即可：
+            //document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+
+        }
+    </script>
+</head>
+<body>
+    <h1>AJAX</h1>
+    <button type="button" onclick="loadXMLDoc()">请求数据</button>
+    <div id="myDiv"></div>
+</body>
+</html>
