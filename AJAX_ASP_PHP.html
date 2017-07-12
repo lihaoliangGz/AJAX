@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AJAX ASP/PHP 实例</title>
+    <script>
+        function showHint(str) {
+            if(str.length==0) {
+                document.getElementById("txtHint").innerHTML = "";
+                return;
+            }
+
+            var xmlHttp;
+            if (window.XMLHttpRequest) {
+                xmlHttp = new XMLHttpRequest();
+            }else {
+                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlHttp.onreadystatechange=function () {
+                if (xmlHttp.readyState==4 && xmlHttp.status==200) {
+                    document.getElementById("txtHint").innerHTML=xmlHttp.responseText;
+                }
+            }
+            xmlHttp.open("GET", "gethint.php?q=" + str, true);
+            xmlHttp.send();
+        }
+
+    </script>
+</head>
+<body>
+    <h4>请在以下输入框输入字母(A-Z)</h4>
+    <form action="">
+        <input type="text" id="txt1" onkeyup="showHint(this.value)"/>
+    </form>
+    <p>建议:<span id="txtHint"></span></p>
+</body>
+</html>
